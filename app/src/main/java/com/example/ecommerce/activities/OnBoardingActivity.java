@@ -1,4 +1,4 @@
-package com.example.ecommerce;
+package com.example.ecommerce.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -13,6 +13,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.ecommerce.R;
+import com.example.ecommerce.adapters.SliderAdapter;
 
 public class OnBoardingActivity extends AppCompatActivity {
 

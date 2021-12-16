@@ -1,4 +1,4 @@
-package com.example.ecommerce;
+package com.example.ecommerce.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -37,6 +38,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("onBoardingScreen", MODE_PRIVATE);
 
+        //check first time use app
         boolean isFirstTime = sharedPreferences.getBoolean("firstTime", true);
 
         if(isFirstTime){
