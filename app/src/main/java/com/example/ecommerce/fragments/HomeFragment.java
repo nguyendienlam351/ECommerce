@@ -1,5 +1,6 @@
 package com.example.ecommerce.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -34,7 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
+    ProgressDialog progressDialog;
+    LinearLayout linearLayout;
     RecyclerView catRecyclerView, newProductRecyclerView, popularRecyclerView;
 
     //Category recyclerview
@@ -61,10 +65,15 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        progressDialog = new ProgressDialog(getActivity());
+
         ImageSlider imageSlider = root.findViewById(R.id.image_slider);
         catRecyclerView = root.findViewById(R.id.rec_category);
         newProductRecyclerView = root.findViewById(R.id.new_product_rec);
         popularRecyclerView = root.findViewById(R.id.popular_rec);
+
+        linearLayout = root.findViewById(R.id.home_layout);
+        linearLayout.setVisibility(View.GONE);
 
         db = FirebaseFirestore.getInstance();
 
@@ -75,6 +84,12 @@ public class HomeFragment extends Fragment {
         slideModels.add(new SlideModel(R.drawable.banner3, "70% OFF", ScaleTypes.CENTER_CROP));
 
         imageSlider.setImageList(slideModels);
+
+        //Progress Dialog
+        progressDialog.setTitle("Welcom to ECommerce App");
+        progressDialog.setMessage("please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
 
         //Category
         catRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
@@ -92,6 +107,8 @@ public class HomeFragment extends Fragment {
                                 CategoryModel categoryModel = document.toObject(CategoryModel.class);
                                 categoryModels.add(categoryModel);
                                 categoryAdapter.notifyDataSetChanged();
+                                linearLayout.setVisibility(View.VISIBLE);
+                                progressDialog.dismiss();
                             }
                         } else {
                             Toast.makeText(getActivity(), "" + task.getException(), Toast.LENGTH_SHORT).show();
