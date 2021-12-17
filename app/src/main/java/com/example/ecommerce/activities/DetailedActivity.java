@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.example.ecommerce.R;
 import com.example.ecommerce.models.NewProductModel;
 import com.example.ecommerce.models.PopularProductModel;
+import com.example.ecommerce.models.ShowAllModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailedActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class DetailedActivity extends AppCompatActivity {
 
     NewProductModel newProductModel = null;
     PopularProductModel popularProductModel = null;
+    ShowAllModel showAllModel = null;
 
     private FirebaseFirestore firestore;
 
@@ -36,6 +38,9 @@ public class DetailedActivity extends AppCompatActivity {
         }
         else if(object instanceof PopularProductModel){
             popularProductModel = (PopularProductModel) object;
+        }
+        else if(object instanceof ShowAllModel){
+            showAllModel = (ShowAllModel) object;
         }
 
         detailedImg = findViewById(R.id.detailed_img);
@@ -66,6 +71,15 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(popularProductModel.getRating());
             description.setText(popularProductModel.getDescription());
             price.setText(String.valueOf(popularProductModel.getPrice()));
+        }
+
+        //Show All Products
+        if(showAllModel != null){
+            Glide.with(getApplicationContext()).load(showAllModel.getImg_url()).into(detailedImg);
+            name.setText(showAllModel.getName());
+            rating.setText(showAllModel.getRating());
+            description.setText(showAllModel.getDescription());
+            price.setText(String.valueOf(showAllModel.getPrice()));
         }
 
     }

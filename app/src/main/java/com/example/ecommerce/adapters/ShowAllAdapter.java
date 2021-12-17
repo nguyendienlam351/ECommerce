@@ -15,15 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.ecommerce.R;
 import com.example.ecommerce.activities.DetailedActivity;
-import com.example.ecommerce.models.CategoryModel;
+import com.example.ecommerce.models.PopularProductModel;
+import com.example.ecommerce.models.ShowAllModel;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHolder> {
     private Context context;
-    private List<CategoryModel> list;
+    private List<ShowAllModel> list;
 
-    public CategoryAdapter(Context context, List<CategoryModel> list) {
+    public ShowAllAdapter(Context context, List<ShowAllModel> list) {
         this.context = context;
         this.list = list;
     }
@@ -31,19 +32,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.category_list, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.show_all_items, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Glide.with(context).load(list.get(position).getImg_url()).into(holder.catImg);
-        holder.catName.setText(list.get(position).getName());
+        Glide.with(context).load(list.get(position).getImg_url()).into(holder.allImg);
+        holder.allName.setText(list.get(position).getName());
+        holder.allPrice.setText("$" + list.get(position).getPrice());
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailedActivity.class);
-                intent.putExtra("type", list.get(position).getType());
+                intent.putExtra("detailed", list.get(position));
                 context.startActivity(intent);
             }
         });
@@ -55,13 +58,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView catImg ;
-        TextView catName;
+        ImageView allImg;
+        TextView allName, allPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            catImg = itemView.findViewById(R.id.cat_img);
-            catName = itemView.findViewById(R.id.cat_name);
+
+            allImg = itemView.findViewById(R.id.item_image);
+            allName = itemView.findViewById(R.id.item_name);
+            allPrice = itemView.findViewById(R.id.item_cost);
         }
     }
 }
