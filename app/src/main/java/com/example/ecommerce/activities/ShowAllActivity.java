@@ -49,24 +49,42 @@ public class ShowAllActivity extends AppCompatActivity {
         showAllAdapter = new ShowAllAdapter(this, showAllModels);
         recyclerView.setAdapter(showAllAdapter);
 
-        db.collection("ShowAll")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                ShowAllModel showAllModel = document.toObject(ShowAllModel.class);
-                                showAllModels.add(showAllModel);
-                                showAllAdapter.notifyDataSetChanged();
+        if(type == null || type.isEmpty()){
+            db.collection("ShowAll")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    ShowAllModel showAllModel = document.toObject(ShowAllModel.class);
+                                    showAllModels.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            } else {
+                                Toast.makeText(ShowAllActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(ShowAllActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
-
-
+                    });
+        }
+        else {
+            db.collection("ShowAll").whereEqualTo("type", type)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    ShowAllModel showAllModel = document.toObject(ShowAllModel.class);
+                                    showAllModels.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            } else {
+                                Toast.makeText(ShowAllActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
 
     }
 }

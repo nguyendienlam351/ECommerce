@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.ecommerce.R;
 import com.example.ecommerce.activities.DetailedActivity;
+import com.example.ecommerce.activities.ShowAllActivity;
 import com.example.ecommerce.models.CategoryModel;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailedActivity.class);
+                Intent intent = new Intent(context, ShowAllActivity.class);
                 intent.putExtra("type", list.get(position).getType());
                 context.startActivity(intent);
             }
