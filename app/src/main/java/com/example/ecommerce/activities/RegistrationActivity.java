@@ -28,7 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         auth = FirebaseAuth.getInstance();
 
