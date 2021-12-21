@@ -58,6 +58,7 @@ public class CartActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         overAllAmount = findViewById(R.id.over_all_amount);
 
         LocalBroadcastManager.getInstance(this)
