@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -64,31 +65,34 @@ public class AddAddressActivity extends AppCompatActivity {
                 String userNumber = phoneNumber.getText().toString();
 
                 String final_address = "";
-                if(!userName.isEmpty()){
-                    final_address +=userName;
+                if (!userName.isEmpty()) {
+                    final_address += userName + ", ";
                 }
-                if(!userCity.isEmpty()){
-                    final_address +=userCity;
+                if (!userCity.isEmpty()) {
+                    final_address += userCity + ", ";
                 }
-                if(!userAddress.isEmpty()){
-                    final_address +=userAddress;
+                if (!userAddress.isEmpty()) {
+                    final_address += userAddress + ", ";
                 }
-                if(!userCode.isEmpty()){
-                    final_address +=userCode;
+                if (!userCode.isEmpty()) {
+                    final_address += userCode + ", ";
                 }
-                if(!userNumber.isEmpty()){
-                    final_address +=userNumber;
+                if (!userNumber.isEmpty()) {
+                    final_address += userNumber + ". ";
                 }
-                if(!userNumber.isEmpty() && !userCity.isEmpty() && !userAddress.isEmpty() && !userCode.isEmpty() &&!userNumber.isEmpty()){
+                if (!userNumber.isEmpty() && !userCity.isEmpty() && !userAddress.isEmpty() && !userCode.isEmpty() && !userNumber.isEmpty()) {
                     Map<String, String> map = new HashMap<>();
-                    map.put("userAddress",final_address);
+                    map.put("userAddress", final_address);
 
                     firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid())
                             .collection("Address").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(AddAddressActivity.this, "Address added", Toast.LENGTH_SHORT).show();
+
+                                startActivity(new Intent(AddAddressActivity.this, DetailedActivity.class));
+                                finish();
                             }
                         }
                     });
